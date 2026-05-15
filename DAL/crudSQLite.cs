@@ -16,10 +16,12 @@ namespace appProvaA1Celular.DAL
 
         private bool _isInitialized = false;
 
-        private async Task InitAsync()
+        // REGRA DE OURO DO PROFESSOR: .Wait() assegura que o banco esteja pronto antes do uso
+        // Conforme Apostilas 08-09, o construtor DAL deve usar .Wait() para garantir inicialização
+        private void InitAsync()
         {
             if (_isInitialized) return;
-            await _connection.CreateTableAsync<Celular>();
+            _connection.CreateTableAsync<Celular>().Wait();
             _isInitialized = true;
         }
 

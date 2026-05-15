@@ -9,7 +9,10 @@ namespace appProvaA1Celular.Views
 {
     public partial class TelaListaCelular : ContentPage
     {
-        private System.Collections.Generic.List<Celular> _todosCelulares = new System.Collections.Generic.List<Celular>();
+        // REGRA DO PROFESSOR: ObservableCollection é obrigatória para ListView
+        // Conforme Apostila 09, a ObservableCollection atualiza a UI automaticamente
+        private System.Collections.ObjectModel.ObservableCollection<Celular> _todosCelulares =
+            new System.Collections.ObjectModel.ObservableCollection<Celular>();
 
         public TelaListaCelular()
         {
@@ -29,7 +32,15 @@ namespace appProvaA1Celular.Views
             {
                 var db = BancoDeDados.Database;
                 var celulares = await db.GetCelularesAsync();
-                _todosCelulares = celulares.ToList(); // Armazenar lista completa
+
+                // REGRA DO PROFESSOR: Limpar e preencher ObservableCollection
+                // Conforme Apostila 09, a lista deve ser limpa e repovada a cada OnAppearing
+                _todosCelulares.Clear();
+                foreach (var celular in celulares)
+                {
+                    _todosCelulares.Add(celular);
+                }
+
                 lstCelulares.ItemsSource = _todosCelulares;
             }
             catch (Exception ex)

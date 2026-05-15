@@ -17,9 +17,6 @@ namespace appProvaA1Celular.DAL
                 if (_database == null)
                 {
                     _database = new crudSQLite(_dbPath);
-                    // REGRA DE OURO DO PROFESSOR: .Wait() assegura que o banco esteja pronto antes do uso
-                    // Conforme Apostilas 08-09, o construtor DAL deve usar .Wait() para garantir inicialização
-                    Task.Run(async () => await _database.GetCelularesAsync()).Wait();
                 }
                 return _database;
             }
