@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="appProvaA1Celular.Views.TelaListaCelular"
+             Title="Meus Celulares">
+
+    <!-- ToolbarItem para adicionar novo celular -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Adicionar"
+                     IconImageSource="incluircelular.png"
+                     Clicked="OnAdicionarClicked"
+                     SemanticProperties.Hint="Cadastrar um novo celular no sistema"
+                     Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="10" RowSpacing="10">
+
+        <!-- Header -->
+        <Label Grid.Row="0"
+               Text="Gerenciamento de Celulares"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Margin="0,0,0,10" />
+
+        <!-- SearchBar para filtrar celulares -->
+        <SearchBar Grid.Row="1"
+                   x:Name="txtBusca"
+                   Placeholder="Buscar celular por fabricante ou modelo..."
+                   SearchButtonPressed="OnSearchButtonPressed"
+                   Margin="0,0,0,10" />
+
+        <!-- Lista de Celulares -->
+        <ListView Grid.Row="2"
+                  x:Name="lstCelulares"
+                  IsPullToRefreshEnabled="True"
+                  Refreshing="refCarregando"
+                  RowHeight="80"
+                  ItemSelected="OnItemSelected">
+
+            <!-- ListView.Header conforme Apostila 09 -->
+            <ListView.Header>
+                <Grid ColumnDefinitions="100,*,150" Padding="10" BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#2A2A2A}">
+                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="Fabricante / Modelo" FontAttributes="Bold" />
+                    <Label Grid.Column="2" Text="Ações" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                </Grid>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnExcluirContextAction" Text="Excluir Celular" CommandParameter="{Binding}" />
+                        </ViewCell.ContextActions>
+                        <Border Margin="5" Padding="10" StrokeShape="RoundRectangle 8,0" BackgroundColor="{AppThemeBinding Light=White, Dark=#1F1F1F}">
+                            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+
+                            <!-- Ícone -->
+                            <Label Grid.Column="0"
+                                   Grid.RowSpan="2"
+                                   Text="📱"
+                                   FontSize="32"
+                                   VerticalOptions="Center" />
+
+                            <!-- Informações -->
+                            <Label Grid.Column="1"
+                                   Grid.Row="0"
+                                   Text="{Binding celFabricante}"
+                                   FontSize="18"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Text="{Binding celModelo}"
+                                   FontSize="14"
+                                   Opacity="0.7" />
+
+                            <!-- Botão Excluir -->
+                            <Button Grid.Column="2"
+                                    Grid.RowSpan="2"
+                                    Text="🗑️"
+                                    FontSize="20"
+                                    Clicked="OnExcluirClicked"
+                                    CommandParameter="{Binding}"
+                                    BackgroundColor="{AppThemeBinding Light=Red, Dark=DarkRed}"
+                                    TextColor="White"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    CornerRadius="25"
+                                    VerticalOptions="Center"
+                                    SemanticProperties.Hint="Excluir este celular da lista" />
+
+                        </Grid>
+                    </Border>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Botão Adicionar -->
+        <Button Grid.Row="3"
+                Text="➕ Adicionar Celular"
+                FontSize="18"
+                FontAttributes="Bold"
+                Clicked="OnAdicionarClicked"
+                HeightRequest="55"
+                CornerRadius="10"
+                BackgroundColor="{AppThemeBinding Light=#512BD4, Dark=#7B61FF}"
+                TextColor="White" />
+
+    </Grid>
+
+</ContentPage>

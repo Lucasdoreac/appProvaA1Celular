@@ -1,0 +1,58 @@
+# .NET MAUI
+bin/
+obj/
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+
+# iOS
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# macOS
+*.app
+
+# Database files
+*.db
+*.db3
+*.sqlite
+
+# Backup files
+*~
+*.bak
+*.backup
+
+# Package files
+*.nupkg
+*.snupkg
