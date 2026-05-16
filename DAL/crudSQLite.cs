@@ -9,26 +9,17 @@ namespace appProvaA1Celular.DAL
     {
         private readonly SQLiteAsyncConnection _connection;
 
+        // REGRA DE OURO DO PROFESSOR: .Wait() no CONSTRUTOR assegura que o banco esteja pronto
+        // Conforme Apostila 08 pág. 260, CreateTableAsync com .Wait() deve estar DIRETAMENTE no construtor
         public crudSQLite(string dbPath)
         {
             _connection = new SQLiteAsyncConnection(dbPath);
-        }
-
-        private bool _isInitialized = false;
-
-        // REGRA DE OURO DO PROFESSOR: .Wait() assegura que o banco esteja pronto antes do uso
-        // Conforme Apostilas 08-09, o construtor DAL deve usar .Wait() para garantir inicialização
-        private void InitAsync()
-        {
-            if (_isInitialized) return;
-            _connection.CreateTableAsync<Celular>().Wait();
-            _isInitialized = true;
+            _connection.CreateTableAsync<Celular>().Wait(); // ✅ OBRIGATÓRIO NO CONSTRUTOR
         }
 
         // Create - Inserir novo celular
         public async Task<bool> IncluirCelularAsync(Celular celular)
         {
-            await InitAsync();
             await _connection.InsertAsync(celular);
             return true;
         }
@@ -36,7 +27,6 @@ namespace appProvaA1Celular.DAL
         // Read - Obter todos os celulares
         public async Task<ObservableCollection<Celular>> GetCelularesAsync()
         {
-            await InitAsync();
             var celulares = await _connection.Table<Celular>().ToListAsync();
             return new ObservableCollection<Celular>(celulares);
         }
@@ -44,7 +34,6 @@ namespace appProvaA1Celular.DAL
         // Update - Alterar celular existente
         public async Task<bool> AlterarCelularAsync(Celular celular)
         {
-            await InitAsync();
             await _connection.UpdateAsync(celular);
             return true;
         }
@@ -52,7 +41,6 @@ namespace appProvaA1Celular.DAL
         // Delete - Excluir celular
         public async Task<bool> ExcluirCelularAsync(Celular celular)
         {
-            await InitAsync();
             await _connection.DeleteAsync(celular);
             return true;
         }
@@ -60,7 +48,6 @@ namespace appProvaA1Celular.DAL
         // GetByID - Obter celular por ID
         public async Task<Celular> GetCelularByIdAsync(int id)
         {
-            await InitAsync();
             return await _connection.Table<Celular>().Where(c => c.celID == id).FirstOrDefaultAsync();
         }
     }
